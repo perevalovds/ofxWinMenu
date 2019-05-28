@@ -1,7 +1,16 @@
 # ofxWinMenu
 
-Create a menu for a Microsoft Windows Openframeworks application.
+Addon for creating main and popup menus in openFrameworks application, for Windows.
 
+This is a fork from original addon https://github.com/leadedge/ofxWinMenu
+I (Denis Perevalov) modified addon to work with the oF 0.10.1 / Visual Studio 2017, 
+and add support of 64 bit builds.
+
+(Also, currently I commented two blocks in "example-advanced" example, 
+because it's not compiling, it's about "About" dialog:  
+INT_PTR CALLBACK About...
+)
+	
 ### Setup
 
 1. Add "ofxWinMenu.h" and "ofxWinMenu.cpp" to your Visual Studio project.

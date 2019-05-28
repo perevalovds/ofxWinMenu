@@ -2,8 +2,12 @@
 
 	ofxWinMenu
 
-	Create a menu for a Microsoft Windows Openframeworks application.
-	
+    Addon for creating main and popup menus in openFrameworks application, for Windows.
+
+    This is a fork from original addon https://github.com/leadedge/ofxWinMenu
+    I (Denis Perevalov) modified addon to work with the oF 0.10.1 / Visual Studio 2017,
+    and add support of 64 bit builds.
+
 	Copyright (C) 2016 Lynn Jarvis.
 
 	https://github.com/leadedge
@@ -52,14 +56,25 @@ ofxWinMenu::ofxWinMenu(ofApp *app, HWND hwnd) {
 	pApp = app; // The ofApp class pointer
 
 	// Save the Openframeworks application window message procedure
+#if _WIN64
+	ofAppWndProc = (WNDPROC)GetWindowLongPtrA(g_hwnd, GWLP_WNDPROC);
+#else
 	ofAppWndProc = (WNDPROC)GetWindowLongPtrA(g_hwnd, GWL_WNDPROC);
-	
+#endif
+
 	// Set our own window message procedure
+#if _WIN64
+	SetWindowLongPtrA(g_hwnd, GWLP_WNDPROC, (LONG64)ofxWinMenuWndProc);
+#else
 	SetWindowLongPtrA(g_hwnd, GWL_WNDPROC, (LONG)ofxWinMenuWndProc);
+#endif
 
 	// Set the Menu name
-	SetClassLongA(g_hwnd, GCL_MENUNAME, (LONG)"ofxWinMenu"); 
-
+#if _WIN64
+	SetClassLongA(g_hwnd, GCLP_MENUNAME, (LONG64)"ofxWinMenu"); 
+#else
+	SetClassLongA(g_hwnd, GCL_MENUNAME, (LONG)"ofxWinMenu");
+#endif
 }
 
 ofxWinMenu::~ofxWinMenu()

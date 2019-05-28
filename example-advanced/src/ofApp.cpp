@@ -72,8 +72,12 @@ void ofApp::setup() {
 	hWnd = WindowFromDC(wglGetCurrentDC());
 
 	// Set a custom window icon (see resource.h and resource.rc)
+#if _WIN64
+	SetClassLong(hWnd, GCLP_HICON, (LONG64)LoadIconA(GetModuleHandle(NULL), MAKEINTRESOURCEA(IDI_ICON1)));
+#else
 	SetClassLong(hWnd, GCL_HICON, (LONG)LoadIconA(GetModuleHandle(NULL), MAKEINTRESOURCEA(IDI_ICON1)));
-	
+#endif
+
 	// Disable escape key exit so we can exit fullscreen with Escape (see keyPressed)
 	ofSetEscapeQuitsApp(false);
 
@@ -433,6 +437,8 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			// About box text - 6 lines, 35 characters each line, centered
 			sprintf_s(about, 1024, "ofxWinMenu\nadvanced example\n");
 
+			/* Commented by perevalovds
+
 			//
 			// Get product version number from resources ("ProductVersion")
 			//
@@ -454,12 +460,18 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 					}
 				}
 			}
+			*/
 			SetDlgItemTextA(hDlg, IDC_ABOUT_TEXT, (LPCSTR)about);
 
 			// Hyperlink hand cursor
 			cursorHand=LoadCursor(NULL, IDC_HAND);
 			hwnd = GetDlgItem(hDlg, IDC_ABOUT_URL);
-			SetClassLongA(hwnd, GCL_HCURSOR, (long)cursorHand);
+
+#if _WIN64
+			SetClassLongA(hwnd, GCLP_HCURSOR, (LONG64)cursorHand);
+#else
+			SetClassLongA(hwnd, GCL_HCURSOR, (LONG)cursorHand);
+#endif
 
 			return (INT_PTR)TRUE;
 
@@ -472,18 +484,20 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case WM_COMMAND:
-
+			/* Commented by perevalovds
 			if (LOWORD(wParam) == IDC_ABOUT_URL) {
 				sprintf(temp, "http://spout.zeal.co");
 				ShellExecuteA(hDlg, "open", temp, NULL, NULL, SW_SHOWNORMAL); 
 				EndDialog(hDlg, 0);
 				return (INT_PTR)TRUE;
 			}
+			*/
 
 			if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL) {
 				EndDialog(hDlg, LOWORD(wParam));
 				return (INT_PTR)TRUE;
 			}
+			
 			break;
 	}
 	return (INT_PTR)FALSE;
