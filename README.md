@@ -118,10 +118,6 @@ Resedit may include "richedit.h" to resource.rc. This can be removed if it cause
 
 Resedit will add additional control IDs to resource.h starting at 40000 and can include duplicate ID values. Check and edit resource.h as necessary.
 
-### Binaries
-
-Binaries are included to illustrate the function of ofxWinMenu before building the project.
-
 ### Copyright
 
 ofxWinMenu - Copyright (C) 2016 Lynn Jarvis [http://spout.zeal.co/](http://spout.zeal.co/)
